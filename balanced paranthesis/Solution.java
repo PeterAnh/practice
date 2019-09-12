@@ -1,10 +1,4 @@
-import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
 import java.util.*;
-import java.util.concurrent.*;
-import java.util.regex.*;
 import java.util.StringTokenizer;
 
 public class Solution {
@@ -15,61 +9,32 @@ public class Solution {
     	
     	int l = values.length;
     	String[] result = new String[l];
+        HashMap<Character, Character> brackets = new HashMap<>();
+        brackets.put('(',')');
+        brackets.put('[',']');
+        brackets.put('{','}');
         
         for(int i = 0; i < l; i++)
         {
         	Stack<Character> s = new Stack<>();
-        	int open = 0;
-        	int close = 0;
         	for(int j = 0; j < values[i].length(); j++)
         	{
         		char current = values[i].charAt(j);
-        		
-        		if(current == '{' || current == '(' || current == '[' )
+        		if(brackets.containsKey(current))
         		{
         			s.push(current);
-        			open++;
-        			continue;
+        		} else if(brackets.get(s.pop()) != current)
+        		{
+        			result[i] = "NO";
+        			break;
         		}
         		
-        		if(current == '}')
-        		{
-        			close++;
-        			if(!s.isEmpty() && s.peek() == '{')
-        			{
-        				s.pop();
-        			}
-        		}
-        		
-        		if(current == ']')
-        		{
-        			close++;
-        			if(!s.isEmpty() && s.peek() == '[')
-        			{
-        				s.pop();
-        			}
-        		}
-        		
-        		if(current == ')')
-        		{
-        			close++;
-        			if(!s.isEmpty() && s.peek() == '(')
-        			{
-        				s.pop();
-        			}
-        		}
-        	}
-        	
-        	if(s.isEmpty())
-        	{
-        		if(open - close == 0)
+        		if(s.empty())
         		{
         			result[i] = "YES";
         		} else {
         			result[i] = "NO";
         		}
-        	} else {
-        		result[i] = "NO";
         	}
         }
         
