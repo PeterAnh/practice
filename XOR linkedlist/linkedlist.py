@@ -35,6 +35,13 @@ class XORLinkedList:
         new_node = Node(element,current_index,-1)
         self.memory.append(new_node)
 
-    def get(index):
+    def get(self, index):
+        current_index, previous_index, current = self.root()
+        while(current_index != index or current_index != -1):
+            previous_index = current_index
+            current_index = current.next_node(previous_index)
+            current = self.memory[current_index]
+            
+        return current.val
         pass
 
